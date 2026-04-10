@@ -35,3 +35,17 @@ It provides a clean interface to search and explore locations using the Barikoi 
 - Open `http://localhost:3000` in your browser.
 - Search for places/locations from the search interface.
 - Explore results and location details powered by Barikoi APIs.
+
+## Project Structure
+
+Typical structure (will vary based on implementation):
+
+```text
+barikoi-location-finder/
+|- public/
+|- src/
+|  |- components/
+|  |- pages/ or app/
+|  |- services/
+|- README.md
+```

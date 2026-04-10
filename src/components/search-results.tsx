@@ -5,6 +5,7 @@ type SearchResultsProps = {
   isLoading: boolean;
   query: string;
   errorMessage: string | null;
+  warningMessage?: string | null;
 };
 
 function toNumber(value: unknown): number | undefined {
@@ -81,7 +82,13 @@ function getMapLink(location: BarikoiLocation): string | null {
   return `https://www.google.com/maps?q=${encodeURIComponent(label)}`;
 }
 
-export function SearchResults({ results, isLoading, query, errorMessage }: SearchResultsProps) {
+export function SearchResults({
+  results,
+  isLoading,
+  query,
+  errorMessage,
+  warningMessage,
+}: SearchResultsProps) {
   const trimmedQuery = query.trim();
 
   if (!trimmedQuery) {
@@ -102,6 +109,7 @@ export function SearchResults({ results, isLoading, query, errorMessage }: Searc
 
   return (
     <>
+      {warningMessage ? <p className="meta">{warningMessage}</p> : null}
       <p className="meta">{results.length} result(s) found</p>
       {results.length > 0 ? (
         <ul className="results">

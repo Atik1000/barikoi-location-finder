@@ -13,6 +13,7 @@ export default function Home() {
   const [results, setResults] = useState<BarikoiLocation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [warningMessage, setWarningMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const trimmedQuery = query.trim();
@@ -21,6 +22,7 @@ export default function Home() {
     if (!trimmedQuery) {
       setResults([]);
       setErrorMessage(null);
+      setWarningMessage(null);
       setIsLoading(false);
       return () => controller.abort();
     }
@@ -28,6 +30,7 @@ export default function Home() {
     if (trimmedQuery.length < 3) {
       setResults([]);
       setErrorMessage(null);
+      setWarningMessage(null);
       setIsLoading(false);
       return () => controller.abort();
     }
@@ -36,6 +39,7 @@ export default function Home() {
       try {
         setIsLoading(true);
         setErrorMessage(null);
+        setWarningMessage(null);
 
         const response = await fetch(
           `/api/locations?q=${encodeURIComponent(trimmedQuery)}`,
@@ -47,6 +51,7 @@ export default function Home() {
         const payload = (await response.json()) as {
           results?: BarikoiLocation[];
           error?: string;
+          warning?: string;
         };
 
         if (!response.ok) {
@@ -54,6 +59,7 @@ export default function Home() {
         }
 
         setResults(payload.results ?? []);
+        setWarningMessage(payload.warning ?? null);
       } catch (error) {
         if (controller.signal.aborted) {
           return;
@@ -63,6 +69,7 @@ export default function Home() {
           error instanceof Error ? error.message : "Unexpected error during search";
         setErrorMessage(message);
         setResults([]);
+        setWarningMessage(null);
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
@@ -94,6 +101,7 @@ export default function Home() {
             isLoading={isLoading}
             query={query}
             errorMessage={errorMessage}
+            warningMessage={warningMessage}
           />
         </section>
 

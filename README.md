@@ -77,6 +77,7 @@ Notes:
 - Keep API keys server-side whenever possible.
 - `BARIKOI_BASE_URL` and `BARIKOI_SEARCH_PATH` are optional and have defaults.
 - Never commit real API secrets to source control.
+- If the API key is missing, the app falls back to demo location results so the UI remains usable.
 
 ## Project Structure
 

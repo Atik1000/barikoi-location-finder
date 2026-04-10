@@ -82,8 +82,14 @@ function getMapLink(location: BarikoiLocation): string | null {
 }
 
 export function SearchResults({ results, isLoading, query, errorMessage }: SearchResultsProps) {
-  if (!query.trim()) {
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) {
     return <p className="meta">Type to start searching.</p>;
+  }
+
+  if (trimmedQuery.length < 3) {
+    return <p className="meta">Type at least 3 characters to search.</p>;
   }
 
   if (isLoading) {

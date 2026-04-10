@@ -25,6 +25,13 @@ export default function Home() {
       return () => controller.abort();
     }
 
+    if (trimmedQuery.length < 3) {
+      setResults([]);
+      setErrorMessage(null);
+      setIsLoading(false);
+      return () => controller.abort();
+    }
+
     const timeoutId = setTimeout(async () => {
       try {
         setIsLoading(true);
@@ -76,8 +83,7 @@ export default function Home() {
           <p className={styles.badge}>Barikoi Location Finder</p>
           <h1>Search for places across Bangladesh in one quick flow.</h1>
           <p>
-            Start typing a location name, area, or city. This first version uses local sample
-            matching and is ready for API wiring in the next step.
+            Type at least 3 characters to search by location name, area, or city.
           </p>
         </div>
 

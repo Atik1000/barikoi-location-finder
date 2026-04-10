@@ -5,7 +5,7 @@ import { searchLocations } from "@/services/barikoi";
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get("q")?.trim() ?? "";
 
-  if (!query) {
+  if (query.length < 3) {
     return NextResponse.json({ results: [] });
   }
 

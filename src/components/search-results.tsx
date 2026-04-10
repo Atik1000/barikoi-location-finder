@@ -75,7 +75,20 @@ export function SearchResults({
   }
 
   if (isLoading) {
-    return <p className="meta">Searching locations...</p>;
+    return (
+      <>
+        <p className="meta">Searching locations...</p>
+        <ul className="skeletonList" aria-label="Loading search results" aria-live="polite">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <li key={`skeleton-${index}`} className="skeletonCard">
+              <div className="skeletonLine skeletonTitle" />
+              <div className="skeletonLine skeletonBody" />
+              <div className="skeletonLine skeletonMeta" />
+            </li>
+          ))}
+        </ul>
+      </>
+    );
   }
 
   if (errorMessage) {

@@ -210,6 +210,42 @@
   gap: 10px;
 }
 
+.searchPanel :global(.skeletonList) {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.searchPanel :global(.skeletonCard) {
+  border: 1px solid #d9e8f2;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fff;
+  display: grid;
+  gap: 10px;
+}
+
+.searchPanel :global(.skeletonLine) {
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #e8eef5 25%, #f5f8fc 40%, #e8eef5 65%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.searchPanel :global(.skeletonTitle) {
+  width: 48%;
+  height: 12px;
+}
+
+.searchPanel :global(.skeletonBody) {
+  width: 82%;
+}
+
+.searchPanel :global(.skeletonMeta) {
+  width: 64%;
+}
+
 .searchPanel :global(.results li) {
   border: 1px solid #d9e8f2;
   border-radius: 12px;
@@ -330,5 +366,15 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
   }
 }

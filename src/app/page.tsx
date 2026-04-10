@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import { LocationMap } from "@/components/location-map";
 
+import { useDebounce } from "@/hooks/use-debounce";
 import { SearchBox } from "@/components/search-box";
 import { SearchResults } from "@/components/search-results";
 import { hasValidCoordinates } from "@/lib/location-utils";
@@ -27,6 +28,7 @@ export default function Home() {
   const { query, results, isLoading, errorMessage, selectedLocation } = useAppSelector(
     (state) => state.location,
   );
+  const debouncedQuery = useDebounce(query, 450);
 
   const handleQueryChange = (value: string) => {
     dispatch(setQuery(value));
@@ -37,7 +39,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const trimmedQuery = query.trim();
+    const trimmedQuery = debouncedQuery.trim();
     const controller = new AbortController();
 
     if (!trimmedQuery) {
@@ -50,7 +52,7 @@ export default function Home() {
       return () => controller.abort();
     }
 
-    const timeoutId = setTimeout(async () => {
+    (async () => {
       try {
         dispatch(setLoading(true));
         dispatch(setError(null));
@@ -91,13 +93,12 @@ export default function Home() {
           dispatch(setLoading(false));
         }
       }
-    }, 400);
+    })();
 
     return () => {
       controller.abort();
-      clearTimeout(timeoutId);
     };
-  }, [dispatch, query]);
+  }, [debouncedQuery, dispatch]);
 
   return (
     <div className={styles.page}>

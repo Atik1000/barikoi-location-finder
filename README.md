@@ -88,6 +88,45 @@ Security note:
 - `BARIKOI_MIN_SEARCH_QUERY_LENGTH` controls server-side query-threshold behavior securely.
 - `NEXT_PUBLIC_BARIKOI_MAP_KEY` is for map style tiles and should be domain-restricted.
 
+## Local Environment Setup (Step by Step)
+
+Follow these steps on your local machine:
+
+1. Copy the example env file:
+
+	cp .env.example .env.local
+
+2. Open `.env.local` and set your real keys:
+
+	BARIKOI_API_KEY=your_real_server_key
+	NEXT_PUBLIC_BARIKOI_MAP_KEY=your_public_map_key
+
+3. Keep these defaults unless you need to change them:
+
+	BARIKOI_BASE_URL=https://barikoi.xyz
+	BARIKOI_API_TIMEOUT_MS=10000
+	BARIKOI_MIN_SEARCH_QUERY_LENGTH=3
+	NEXT_PUBLIC_BARIKOI_MAP_STYLE_BASE_URL=https://map.barikoi.com/styles/osm-liberty/style.json
+	NEXT_PUBLIC_GOOGLE_MAPS_SEARCH_BASE_URL=https://www.google.com/maps?q=
+	NEXT_PUBLIC_MIN_SEARCH_QUERY_LENGTH=3
+
+4. Restart the app after any env change:
+
+	npm run dev
+
+5. Verify the setup:
+
+	- Search for a location with 3+ characters.
+	- Confirm result list shows live data.
+	- Select a result and confirm map renders marker/popup.
+
+Common mistakes to avoid:
+
+- Do not add quotes around key values unless required.
+- Do not leave spaces around equals sign.
+- Do not commit `.env.local` to git.
+- If values change but app behavior does not, stop and restart the dev server.
+
 ## Architecture Summary
 
 - `src/app/api/locations/route.ts`: server route for secure location search

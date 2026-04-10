@@ -124,26 +124,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          <div className={styles.heroStats}>
-            <article className={styles.statCard}>
-              <p>Search Mode</p>
-              <h3>Live + Fallback</h3>
-              <span>Auto fallback keeps demo stable if API key is missing.</span>
-            </article>
-
-            <article className={styles.statCard}>
-              <p>Result Detail</p>
-              <h3>Address + GPS</h3>
-              <span>Postcode, coordinates, and map handoff included.</span>
-            </article>
-
-            <article className={styles.statCard}>
-              <p>Search Trigger</p>
-              <h3>3+ Characters</h3>
-              <span>Debounced lookups reduce noise and improve quality.</span>
-            </article>
-          </div>
         </section>
 
         <div className={styles.panelHeader}>
@@ -172,11 +152,6 @@ export default function Home() {
           </div>
           <LocationMap location={selectedLocation} />
         </section>
-
-        <div className={styles.footerNote}>
-          Powered by barikoiapis (secure server search), react-bkoi-gl (interactive map), Redux,
-          and Tailwind CSS.
-        </div>
       </main>
     </div>
   );

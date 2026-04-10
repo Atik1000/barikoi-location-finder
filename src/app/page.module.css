@@ -55,7 +55,7 @@
 
 .hero {
   display: grid;
-  grid-template-columns: 1.45fr 1fr;
+  grid-template-columns: 1fr;
   gap: 18px;
 }
 

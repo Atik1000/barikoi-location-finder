@@ -72,7 +72,7 @@ BARIKOI_MIN_SEARCH_QUERY_LENGTH=3
 NEXT_PUBLIC_BARIKOI_MAP_KEY=your_public_map_key
 
 # Optional public map style base URL
-NEXT_PUBLIC_BARIKOI_MAP_STYLE_BASE_URL=https://map.barikoi.com/styles/osm-liberty/style.json
+NEXT_PUBLIC_BARIKOI_MAP_STYLE_BASE_URL=https://map.barikoi.com/styles/barikoi-light/style.json
 
 # Optional public external links base URL for map handoff
 NEXT_PUBLIC_GOOGLE_MAPS_SEARCH_BASE_URL=https://www.google.com/maps?q=

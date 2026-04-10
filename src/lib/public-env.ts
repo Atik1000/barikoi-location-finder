@@ -5,7 +5,7 @@ export function getPublicMapKey(): string | null {
 export function getPublicMapStyleBaseUrl(): string {
   return (
     process.env.NEXT_PUBLIC_BARIKOI_MAP_STYLE_BASE_URL ??
-    "https://map.barikoi.com/styles/osm-liberty/style.json"
+    "https://map.barikoi.com/styles/barikoi-light/style.json"
   );
 }
 

@@ -11,3 +11,10 @@ It provides a clean interface to search and explore locations using the Barikoi 
 - View and explore location results quickly
 - Clean UI structure suitable for assignment/demo delivery
 - Built with scalable project structure for future enhancements
+
+## Tech Stack
+
+- Next.js
+- React
+- JavaScript/TypeScript (depending on implementation)
+- Barikoi Location API

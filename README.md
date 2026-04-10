@@ -95,20 +95,33 @@ Security note:
 - `src/store`: Redux store and location slice
 - `src/components/location-map.tsx`: interactive map using `react-bkoi-gl`
 
-## Assignment Question 1
 
-What trade-offs did you consciously make due to time constraints?
+## Q1 — What trade-offs did you consciously make due to time constraints?
 
-1. I prioritized a stable, complete feature flow over advanced map interactions (for example clustering, route drawing, and geofence overlays).
-2. I used a single-page experience with focused Redux state instead of splitting into multiple routes/modules early.
-3. I optimized for clarity and reliability first, leaving broader automated test coverage as a next step.
+### 1. Feature completeness over advanced map interactions
+I deliberately prioritized delivering a stable, end-to-end working feature flow rather than layering in advanced map capabilities such as marker clustering for dense data sets, polyline route drawing, or geofence/radius overlays. These are high-value UX additions, but they carry non-trivial implementation complexity and testing overhead. Getting the core search-to-map feedback loop working reliably was a better investment of the available time.
 
-## Assignment Question 2
+### 2. Single-page architecture over premature modularization
+Rather than splitting the application into multiple routes or feature modules from the outset, I kept the experience as a focused single-page flow backed by a deliberately scoped Redux store. Early over-engineering of routing and module boundaries introduces coordination overhead before the product shape is even settled. A clean, readable single-page implementation is easier to reason about, demo, and extend than a prematurely fragmented one.
 
-If this app needed to scale (more data, more features), what would you refactor first?
+### 3. Clarity and reliability over broad test coverage
+I optimized for code that is straightforward to read and that behaves predictably under normal usage, accepting that automated test coverage — particularly integration and edge-case tests — is a gap to be closed in a follow-up iteration. Writing tests for code whose shape is still evolving often produces brittle specs that need rewriting anyway, so deferring broader coverage until the architecture stabilized was a conscious, pragmatic call.
 
-1. Move from simple API-route fetch to a richer data layer (caching, pagination, stale-while-revalidate).
-2. Introduce normalized entity state in Redux for large result sets and better memoized selectors.
-3. Split map/search into domain modules with dedicated hooks and feature folders.
-4. Add integration tests for API route + state transitions and component tests for search/map behaviors.
-5. Add observability (structured logs, request tracing, and error analytics).
+---
+
+## Q2 — If this app needed to scale (more data, more features), what would you refactor first?
+
+### 1. Introduce a proper data-fetching layer
+The current direct API-route fetch pattern works fine at small scale but does not handle caching, deduplication, or background revalidation. I would replace it with a dedicated data-fetching strategy — either a library like React Query / SWR or a custom caching middleware — to support pagination, stale-while-revalidate semantics, and request deduplication. This single change has the highest leverage because it improves perceived performance, reduces server load, and decouples UI state from network state cleanly.
+
+### 2. Normalize Redux entity state and introduce memoized selectors
+As result sets grow, storing raw arrays in Redux leads to O(n) lookup costs and redundant re-renders across components. I would migrate to a normalized entity map (keyed by ID) using a pattern like Redux Toolkit's `createEntityAdapter`, paired with fine-grained memoized selectors via `createSelector`. This makes updates surgical, keeps derived data consistent, and significantly improves rendering performance for large data volumes.
+
+### 3. Decompose into domain-driven feature modules
+The map and search concerns would be split into dedicated feature folders, each owning its own Redux slice, custom hooks, API service, and component subtree. This co-location of related code makes each domain independently navigable, testable, and deployable — and it scales naturally as new domains (e.g. user preferences, saved locations, history) are introduced without inflating a monolithic state or component tree.
+
+### 4. Build out a meaningful test pyramid
+With a stable architecture in place, I would invest in integration tests covering the full API route → Redux state transition path, and component-level tests for the search interaction and map rendering behaviors. The goal is a test suite that catches regressions at the boundary where most real bugs live, without over-testing implementation details.
+
+### 5. Add production observability
+At scale, silent failures and slow requests become invisible without instrumentation. I would introduce structured logging (with request IDs threaded through the call chain), distributed request tracing, and a front-end error analytics pipeline. This gives the team the feedback loop needed to prioritize performance work and diagnose production issues before users report them.

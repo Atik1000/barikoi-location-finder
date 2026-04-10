@@ -108,6 +108,40 @@
   color: #456782;
 }
 
+.searchPanel :global(.resultMeta) {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 0.82rem;
+  color: #4a6780;
+}
+
+.searchPanel :global(.resultMeta strong) {
+  color: #17354d;
+  font-weight: 600;
+}
+
+.searchPanel :global(.resultLink) {
+  margin-top: 10px;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px solid #bdd4e4;
+  color: #124564;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.searchPanel :global(.resultLink:hover) {
+  background: #e8f4fc;
+  border-color: #9abfd6;
+}
+
 .searchPanel :global(.empty) {
   color: #9a552f;
   background: #fff3eb;

@@ -29,3 +29,9 @@ It provides a clean interface to search and explore locations using the Barikoi 
 	`npm install`
 4. Start the development server:
 	`npm run dev`
+
+## Usage
+
+- Open `http://localhost:3000` in your browser.
+- Search for places/locations from the search interface.
+- Explore results and location details powered by Barikoi APIs.

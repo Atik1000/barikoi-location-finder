@@ -1,64 +1,78 @@
-import Image from "next/image";
+"use client";
+
+import { useMemo, useState } from "react";
 import styles from "./page.module.css";
 
+const SAMPLE_LOCATIONS = [
+  { name: "Banani", city: "Dhaka", address: "Banani, Dhaka" },
+  { name: "Dhanmondi", city: "Dhaka", address: "Dhanmondi, Dhaka" },
+  { name: "GEC Circle", city: "Chattogram", address: "GEC Circle, Chattogram" },
+  { name: "Zindabazar", city: "Sylhet", address: "Zindabazar, Sylhet" },
+  { name: "Shibbari", city: "Khulna", address: "Shibbari, Khulna" },
+];
+
 export default function Home() {
+  const [query, setQuery] = useState("");
+
+  const filteredResults = useMemo(() => {
+    const trimmedQuery = query.trim().toLowerCase();
+
+    if (!trimmedQuery) {
+      return [];
+    }
+
+    return SAMPLE_LOCATIONS.filter((location) => {
+      return (
+        location.name.toLowerCase().includes(trimmedQuery) ||
+        location.city.toLowerCase().includes(trimmedQuery) ||
+        location.address.toLowerCase().includes(trimmedQuery)
+      );
+    });
+  }, [query]);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
+        <div className={styles.hero}>
+          <p className={styles.badge}>Barikoi Location Finder</p>
+          <h1>Search for places across Bangladesh in one quick flow.</h1>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            Start typing a location name, area, or city. This first version uses local sample
+            matching and is ready for API wiring in the next step.
           </p>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <section className={styles.searchPanel}>
+          <label htmlFor="location-query">Location query</label>
+          <input
+            id="location-query"
+            placeholder="Try Banani, Dhanmondi, Sylhet..."
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+
+          {query.trim() ? (
+            <p className={styles.meta}>{filteredResults.length} result(s) found</p>
+          ) : (
+            <p className={styles.meta}>Type to start searching.</p>
+          )}
+
+          <ul className={styles.results}>
+            {filteredResults.map((location) => (
+              <li key={`${location.name}-${location.city}`}>
+                <h3>{location.name}</h3>
+                <p>{location.address}</p>
+              </li>
+            ))}
+          </ul>
+
+          {query.trim() && filteredResults.length === 0 ? (
+            <p className={styles.empty}>No local sample match found for this query.</p>
+          ) : null}
+        </section>
+
+        <div className={styles.footerNote}>
+          Next step will replace local matching with live Barikoi API search.
         </div>
       </main>
     </div>

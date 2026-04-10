@@ -108,8 +108,7 @@ export default function Home() {
             <p className={styles.badge}>Barikoi Location Finder</p>
             <h1>Search smarter, locate faster, and explore with confidence.</h1>
             <p>
-              Type at least 3 characters to search by location name, area, or city. Results are
-              served through a secure server-side API route.
+              Type at least 3 characters to search by location name, area, or city.
             </p>
             <div className={styles.shortcutRow}>
               {QUICK_CITIES.map((city) => (

@@ -96,8 +96,8 @@
 }
 
 .shortcutChip {
-  border: 1px solid #c6dceb;
-  background: #ffffff;
+  border: none;
+  background: #edf5fb;
   color: #1d4a67;
   border-radius: 999px;
   padding: 3px 11px;

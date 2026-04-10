@@ -42,8 +42,8 @@ Create `.env.local` at project root:
 # Secure server-side key for API search (required for live data)
 BARIKOI_API_KEY=your_server_api_key
 
-# Optional: default is https://barikoi.xyz/v2/api
-BARIKOI_BASE_URL=https://barikoi.xyz/v2/api
+# Optional: default is https://barikoi.xyz
+BARIKOI_BASE_URL=https://barikoi.xyz
 
 # Optional public map key for react-bkoi-gl map tiles
 NEXT_PUBLIC_BARIKOI_MAP_KEY=your_public_map_key

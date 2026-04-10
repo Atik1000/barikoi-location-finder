@@ -23,7 +23,11 @@ export async function searchLocations(
   const result = await client.autocomplete({ q: trimmedQuery, bangla: false });
 
   if (result.error) {
-    throw new Error("Barikoi autocomplete request failed");
+    const apiMessage =
+      typeof result.error === "object" && result.error !== null && "message" in result.error
+        ? String(result.error.message)
+        : "Barikoi autocomplete request failed";
+    throw new Error(apiMessage);
   }
 
   return result.data?.places ?? [];

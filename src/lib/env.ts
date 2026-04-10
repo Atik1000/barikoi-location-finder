@@ -1,4 +1,4 @@
-const DEFAULT_BARIKOI_BASE_URL = "https://barikoi.xyz/v2/api";
+const DEFAULT_BARIKOI_BASE_URL = "https://barikoi.xyz";
 
 export type BarikoiConfig = {
   apiKey: string;
@@ -14,11 +14,14 @@ export function getBarikoiConfig(): BarikoiConfig {
     );
   }
 
-  const baseUrl =
+  const rawBaseUrl =
     (process.env.BARIKOI_BASE_URL ?? process.env.NEXT_PUBLIC_BARIKOI_BASE_URL)?.replace(
       /\/$/,
       "",
     ) ?? DEFAULT_BARIKOI_BASE_URL;
+
+  // barikoiapis expects root domain base URL, not /v2/api prefix.
+  const baseUrl = rawBaseUrl.replace(/\/v2\/api$/i, "");
 
   return {
     apiKey,

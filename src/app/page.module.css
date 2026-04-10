@@ -100,9 +100,10 @@
   background: #ffffff;
   color: #1d4a67;
   border-radius: 999px;
-  padding: 5px 11px;
+  padding: 3px 11px;
   font-size: 0.8rem;
   font-weight: 600;
+  line-height: 1.15;
 }
 
 .heroStats {

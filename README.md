@@ -34,6 +34,23 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+## Docker
+
+### Build and run with Docker
+
+```bash
+docker build -t barikoi-location-finder .
+docker run --rm -p 3000:3000 --env-file .env.local barikoi-location-finder
+```
+
+### Run with Docker Compose
+
+```bash
+docker compose up --build
+```
+
+The app will be available at `http://localhost:3000`.
+
 ## Environment Variables
 
 Create `.env.local` at project root:
@@ -95,8 +112,3 @@ If this app needed to scale (more data, more features), what would you refactor 
 3. Split map/search into domain modules with dedicated hooks and feature folders.
 4. Add integration tests for API route + state transitions and component tests for search/map behaviors.
 5. Add observability (structured logs, request tracing, and error analytics).
-
-## Submission Guidelines
-
-- Public GitHub Repository: https://github.com/Atik1000/barikoi-location-finder
-- Setup commands included above (`npm install`, `npm run dev`)

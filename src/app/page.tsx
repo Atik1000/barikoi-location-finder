@@ -1,33 +1,72 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import styles from "./page.module.css";
+import { useEffect, useState } from "react";
 
-const SAMPLE_LOCATIONS = [
-  { name: "Banani", city: "Dhaka", address: "Banani, Dhaka" },
-  { name: "Dhanmondi", city: "Dhaka", address: "Dhanmondi, Dhaka" },
-  { name: "GEC Circle", city: "Chattogram", address: "GEC Circle, Chattogram" },
-  { name: "Zindabazar", city: "Sylhet", address: "Zindabazar, Sylhet" },
-  { name: "Shibbari", city: "Khulna", address: "Shibbari, Khulna" },
-];
+import { SearchBox } from "@/components/search-box";
+import { SearchResults } from "@/components/search-results";
+import type { BarikoiLocation } from "@/types/barikoi";
+
+import styles from "./page.module.css";
 
 export default function Home() {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<BarikoiLocation[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const filteredResults = useMemo(() => {
-    const trimmedQuery = query.trim().toLowerCase();
+  useEffect(() => {
+    const trimmedQuery = query.trim();
+    const controller = new AbortController();
 
     if (!trimmedQuery) {
-      return [];
+      setResults([]);
+      setErrorMessage(null);
+      setIsLoading(false);
+      return () => controller.abort();
     }
 
-    return SAMPLE_LOCATIONS.filter((location) => {
-      return (
-        location.name.toLowerCase().includes(trimmedQuery) ||
-        location.city.toLowerCase().includes(trimmedQuery) ||
-        location.address.toLowerCase().includes(trimmedQuery)
-      );
-    });
+    const timeoutId = setTimeout(async () => {
+      try {
+        setIsLoading(true);
+        setErrorMessage(null);
+
+        const response = await fetch(
+          `/api/locations?q=${encodeURIComponent(trimmedQuery)}`,
+          {
+            signal: controller.signal,
+          },
+        );
+
+        const payload = (await response.json()) as {
+          results?: BarikoiLocation[];
+          error?: string;
+        };
+
+        if (!response.ok) {
+          throw new Error(payload.error ?? "Failed to fetch locations");
+        }
+
+        setResults(payload.results ?? []);
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        const message =
+          error instanceof Error ? error.message : "Unexpected error during search";
+        setErrorMessage(message);
+        setResults([]);
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
+      }
+    }, 400);
+
+    return () => {
+      controller.abort();
+      clearTimeout(timeoutId);
+    };
   }, [query]);
 
   return (
@@ -43,36 +82,17 @@ export default function Home() {
         </div>
 
         <section className={styles.searchPanel}>
-          <label htmlFor="location-query">Location query</label>
-          <input
-            id="location-query"
-            placeholder="Try Banani, Dhanmondi, Sylhet..."
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
+          <SearchBox value={query} onChange={setQuery} />
+          <SearchResults
+            results={results}
+            isLoading={isLoading}
+            query={query}
+            errorMessage={errorMessage}
           />
-
-          {query.trim() ? (
-            <p className={styles.meta}>{filteredResults.length} result(s) found</p>
-          ) : (
-            <p className={styles.meta}>Type to start searching.</p>
-          )}
-
-          <ul className={styles.results}>
-            {filteredResults.map((location) => (
-              <li key={`${location.name}-${location.city}`}>
-                <h3>{location.name}</h3>
-                <p>{location.address}</p>
-              </li>
-            ))}
-          </ul>
-
-          {query.trim() && filteredResults.length === 0 ? (
-            <p className={styles.empty}>No local sample match found for this query.</p>
-          ) : null}
         </section>
 
         <div className={styles.footerNote}>
-          Next step will replace local matching with live Barikoi API search.
+          Powered by server-side Barikoi integration through Next.js API routes.
         </div>
       </main>
     </div>

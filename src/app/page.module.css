@@ -59,13 +59,13 @@
   padding: 20px;
 }
 
-.searchPanel label {
+.searchPanel :global(label) {
   font-size: 14px;
   color: #204561;
   font-weight: 600;
 }
 
-.searchPanel input {
+.searchPanel :global(input) {
   border: 1px solid #b8cedf;
   border-radius: 10px;
   padding: 12px 14px;
@@ -74,41 +74,41 @@
   background: #fff;
 }
 
-.searchPanel input:focus {
+.searchPanel :global(input:focus) {
   outline: 2px solid #2f7db0;
   outline-offset: 1px;
 }
 
-.meta {
+.searchPanel :global(.meta) {
   font-size: 14px;
   color: #44657f;
 }
 
-.results {
+.searchPanel :global(.results) {
   list-style: none;
   display: grid;
   gap: 10px;
 }
 
-.results li {
+.searchPanel :global(.results li) {
   border: 1px solid #d9e8f2;
   border-radius: 12px;
   padding: 12px 14px;
   background: #fff;
 }
 
-.results h3 {
+.searchPanel :global(.results h3) {
   font-size: 1rem;
   color: #12354e;
   margin-bottom: 4px;
 }
 
-.results p {
+.searchPanel :global(.results p) {
   font-size: 0.92rem;
   color: #456782;
 }
 
-.empty {
+.searchPanel :global(.empty) {
   color: #9a552f;
   background: #fff3eb;
   border: 1px solid #ffd9c2;

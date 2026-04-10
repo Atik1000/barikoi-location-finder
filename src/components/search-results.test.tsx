@@ -57,4 +57,28 @@ describe("SearchResults", () => {
     expect(screen.getByText("1 result(s) found")).toBeInTheDocument();
     expect(screen.getByText("Banani")).toBeInTheDocument();
   });
+
+  test("renders numeric postcode values", () => {
+    render(
+      <SearchResults
+        results={[
+          {
+            id: 1202148,
+            area: "Bashundhara",
+            address: "Bashundhara, Keraniganj",
+            latitude: "23.665463770243008",
+            longitude: "90.42884324162543",
+            postCode: 1310,
+          },
+        ]}
+        isLoading={false}
+        query="bash"
+        errorMessage={null}
+        selectedLocation={null}
+        onSelectLocation={jest.fn()}
+      />,
+    );
+
+    expect(screen.getByText("1310")).toBeInTheDocument();
+  });
 });

@@ -11,6 +11,9 @@ function getPostCode(location: BarikoiLocation): string | undefined {
     if (typeof value === "string" && value.trim()) {
       return value.trim();
     }
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return String(value);
+    }
   }
 
   return undefined;

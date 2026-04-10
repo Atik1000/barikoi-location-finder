@@ -6,11 +6,7 @@ import "react-bkoi-gl/styles";
 
 import { getLocationCoordinates } from "@/lib/location-utils";
 import { getPublicMapKey } from "@/lib/public-env";
-import type { BarikoiLocation } from "@/types/barikoi";
-
-type LocationMapProps = {
-  location: BarikoiLocation | null;
-};
+import type { LocationMapProps } from "@/types/component-props";
 
 const DEFAULT_CENTER = {
   latitude: 23.8103,

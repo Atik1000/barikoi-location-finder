@@ -1,14 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import type { BarikoiLocation } from "@/types/barikoi";
-
-type LocationState = {
-  query: string;
-  results: BarikoiLocation[];
-  isLoading: boolean;
-  errorMessage: string | null;
-  selectedLocation: BarikoiLocation | null;
-};
+import type { LocationState } from "@/types/location-state";
 
 const initialState: LocationState = {
   query: "",

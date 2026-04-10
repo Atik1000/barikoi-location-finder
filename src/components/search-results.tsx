@@ -1,14 +1,6 @@
 import { getLocationCoordinates, hasValidCoordinates } from "@/lib/location-utils";
+import type { SearchResultsProps } from "@/types/component-props";
 import type { BarikoiLocation } from "@/types/barikoi";
-
-type SearchResultsProps = {
-  results: BarikoiLocation[];
-  isLoading: boolean;
-  query: string;
-  errorMessage: string | null;
-  selectedLocation: BarikoiLocation | null;
-  onSelectLocation: (location: BarikoiLocation) => void;
-};
 
 function getPostCode(location: BarikoiLocation): string | undefined {
   const keys = ["postCode", "postcode", "post_code"];

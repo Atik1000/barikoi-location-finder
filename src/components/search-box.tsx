@@ -1,8 +1,4 @@
-type SearchBoxProps = {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-};
+import type { SearchBoxProps } from "@/types/component-props";
 
 export function SearchBox({ value, onChange, placeholder }: SearchBoxProps) {
   return (

@@ -9,7 +9,6 @@ export type BarikoiConfig = {
 };
 
 export type ServerFeatureConfig = {
-  enableDemoFallback: boolean;
   minSearchQueryLength: number;
 };
 
@@ -40,13 +39,11 @@ export function getBarikoiConfig(): BarikoiConfig {
 }
 
 export function getServerFeatureConfig(): ServerFeatureConfig {
-  const fallbackRaw = (process.env.BARIKOI_ENABLE_DEMO_FALLBACK ?? "true").toLowerCase();
   const minQueryLength = Number(
     process.env.BARIKOI_MIN_SEARCH_QUERY_LENGTH ?? DEFAULT_MIN_SEARCH_QUERY_LENGTH,
   );
 
   return {
-    enableDemoFallback: fallbackRaw === "true",
     minSearchQueryLength:
       Number.isFinite(minQueryLength) && minQueryLength > 0
         ? minQueryLength

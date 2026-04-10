@@ -49,7 +49,6 @@ BARIKOI_BASE_URL=https://barikoi.xyz
 BARIKOI_API_TIMEOUT_MS=10000
 
 # Optional secure server-side feature flags
-BARIKOI_ENABLE_DEMO_FALLBACK=true
 BARIKOI_MIN_SEARCH_QUERY_LENGTH=3
 
 # Optional public map key for react-bkoi-gl map tiles
@@ -69,7 +68,7 @@ Security note:
 
 - `BARIKOI_API_KEY` is read on the server only (inside API route/service).
 - The client never calls search APIs with the private key directly.
-- `BARIKOI_ENABLE_DEMO_FALLBACK` and `BARIKOI_MIN_SEARCH_QUERY_LENGTH` control server-side behavior securely.
+- `BARIKOI_MIN_SEARCH_QUERY_LENGTH` controls server-side query-threshold behavior securely.
 - `NEXT_PUBLIC_BARIKOI_MAP_KEY` is for map style tiles and should be domain-restricted.
 
 ## Architecture Summary
@@ -85,8 +84,7 @@ What trade-offs did you consciously make due to time constraints?
 
 1. I prioritized a stable, complete feature flow over advanced map interactions (for example clustering, route drawing, and geofence overlays).
 2. I used a single-page experience with focused Redux state instead of splitting into multiple routes/modules early.
-3. I implemented a practical fallback mode for missing API key so demo/testing remains usable, rather than failing the whole app.
-4. I optimized for clarity and reliability first, leaving broader automated test coverage as a next step.
+3. I optimized for clarity and reliability first, leaving broader automated test coverage as a next step.
 
 ## Assignment Question 2
 

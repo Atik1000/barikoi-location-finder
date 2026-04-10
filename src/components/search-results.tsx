@@ -5,7 +5,6 @@ type SearchResultsProps = {
   isLoading: boolean;
   query: string;
   errorMessage: string | null;
-  warningMessage?: string | null;
 };
 
 function toNumber(value: unknown): number | undefined {
@@ -87,7 +86,6 @@ export function SearchResults({
   isLoading,
   query,
   errorMessage,
-  warningMessage,
 }: SearchResultsProps) {
   const trimmedQuery = query.trim();
 
@@ -109,7 +107,6 @@ export function SearchResults({
 
   return (
     <>
-      {warningMessage ? <p className="meta">{warningMessage}</p> : null}
       <p className="meta">{results.length} result(s) found</p>
       {results.length > 0 ? (
         <ul className="results">

@@ -2,11 +2,16 @@ export type BarikoiLocation = {
   id?: string | number;
   name?: string;
   address?: string;
+  address_bn?: string;
   area?: string;
+  area_bn?: string;
   city?: string;
-  postCode?: string;
-  latitude?: number;
-  longitude?: number;
+  city_bn?: string;
+  postCode?: string | number;
+  latitude?: number | string;
+  longitude?: number | string;
+  pType?: string;
+  uCode?: string;
   [key: string]: unknown;
 };
 

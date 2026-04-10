@@ -1,143 +1,87 @@
 # barikoi-location-finder
 
-A professional Next.js location finder project for the Barikoi assignment.
+Location Finder built with Next.js for the Barikoi assignment.
 
-## Overview
+## Live Requirements Coverage
 
-This repository contains a modern web application built with Next.js (App Router) and TypeScript. The project is designed to evolve into a production-quality location search experience backed by Barikoi APIs.
-
-## Current Status
-
-- Project scaffold initialized with Next.js, TypeScript, and ESLint
-- Base application structure is ready for feature development
-- README prepared with implementation and deployment guidance
-
-## Planned Features
-
-- Search locations by keyword
-- Show location suggestions and result lists
-- Display important location details (address, coordinates, type)
-- Add loading, empty, and error states for robust UX
-- Keep architecture modular for easy scaling
+- Uses Next.js + TypeScript
+- Uses Redux (`@reduxjs/toolkit` + `react-redux`)
+- Uses Tailwind CSS
+- Uses Barikoi npm libraries:
+	- `barikoiapis` for location search (server-side)
+	- `react-bkoi-gl` for in-app interactive map
+- User can search locations
+- User can view selected location on map
+- API key usage is secure for search requests
 
 ## Tech Stack
 
 - Next.js 16 (App Router)
-- React 19
 - TypeScript
-- ESLint
-- Barikoi Location API (integration step)
+- Redux Toolkit + React Redux
+- Tailwind CSS
+- react-bkoi-gl
+- barikoiapis
 
-## Getting Started
-
-### 1) Clone the repository
+## Setup Instructions
 
 ```bash
 git clone https://github.com/Atik1000/barikoi-location-finder.git
 cd barikoi-location-finder
-```
-
-### 2) Install dependencies
-
-```bash
 npm install
-```
-
-### 3) Start development server
-
-```bash
 npm run dev
 ```
 
-Open http://localhost:3000 in your browser.
-
-## Available Scripts
-
-```bash
-npm run dev     # Start dev server
-npm run build   # Build for production
-npm run start   # Start production server
-npm run lint    # Run ESLint
-```
+Open `http://localhost:3000`.
 
 ## Environment Variables
 
-Create a file named `.env.local` in the project root.
-
-Example:
+Create `.env.local` at project root:
 
 ```env
-BARIKOI_API_KEY=your_api_key_here
+# Secure server-side key for API search (required for live data)
+BARIKOI_API_KEY=your_server_api_key
+
+# Optional: default is https://barikoi.xyz/v2/api
 BARIKOI_BASE_URL=https://barikoi.xyz/v2/api
-BARIKOI_SEARCH_PATH=/search/autocomplete/place
+
+# Optional public map key for react-bkoi-gl map tiles
+NEXT_PUBLIC_BARIKOI_MAP_KEY=your_public_map_key
 ```
 
-Notes:
+Security note:
 
-- Keep API keys server-side whenever possible.
-- `BARIKOI_BASE_URL` and `BARIKOI_SEARCH_PATH` are optional and have defaults.
-- Never commit real API secrets to source control.
-- If the API key is missing, the app falls back to demo location results so the UI remains usable.
+- `BARIKOI_API_KEY` is read on the server only (inside API route/service).
+- The client never calls search APIs with the private key directly.
+- `NEXT_PUBLIC_BARIKOI_MAP_KEY` is for map style tiles and should be domain-restricted.
 
-## Project Structure
+## Architecture Summary
 
-```text
-barikoi-location-finder/
-|- public/
-|- src/
-|  |- app/
-|  |  |- layout.tsx
-|  |  |- page.tsx
-|  |  |- globals.css
-|  |- lib/
-|  |  |- env.ts
-|  |- services/
-|  |  |- barikoi.ts
-|  |- types/
-|  |  |- barikoi.ts
-|- package.json
-|- tsconfig.json
-|- next.config.ts
-|- README.md
-```
+- `src/app/api/locations/route.ts`: server route for secure location search
+- `src/services/barikoi.ts`: Barikoi SDK (`barikoiapis`) integration
+- `src/store`: Redux store and location slice
+- `src/components/location-map.tsx`: interactive map using `react-bkoi-gl`
 
-As features are added, recommended folders include:
+## Assignment Question 1
 
-- src/components
-- src/services
-- src/types
-- src/utils
+What trade-offs did you consciously make due to time constraints?
 
-## API Integration Plan
+1. I prioritized a stable, complete feature flow over advanced map interactions (for example clustering, route drawing, and geofence overlays).
+2. I used a single-page experience with focused Redux state instead of splitting into multiple routes/modules early.
+3. I implemented a practical fallback mode for missing API key so demo/testing remains usable, rather than failing the whole app.
+4. I optimized for clarity and reliability first, leaving broader automated test coverage as a next step.
 
-1. Create a dedicated API service module under src/services
-2. Add typed request and response models in src/types
-3. Use a client-side search workflow with debouncing
-4. Handle API errors and fallbacks gracefully
+## Assignment Question 2
 
-## Deployment
+If this app needed to scale (more data, more features), what would you refactor first?
 
-Recommended deployment platform: Vercel.
+1. Move from simple API-route fetch to a richer data layer (caching, pagination, stale-while-revalidate).
+2. Introduce normalized entity state in Redux for large result sets and better memoized selectors.
+3. Split map/search into domain modules with dedicated hooks and feature folders.
+4. Add integration tests for API route + state transitions and component tests for search/map behaviors.
+5. Add observability (structured logs, request tracing, and error analytics).
 
-High-level steps:
+## Submission Guidelines
 
-1. Push repository to GitHub
-2. Import project in Vercel
-3. Set environment variables in Vercel dashboard
-4. Trigger production deployment
-
-## Contribution
-
-For assignment-style collaboration:
-
-1. Create a new branch
-2. Commit changes with clear messages
-3. Open a pull request
-
-## License
-
-This project is intended for educational and assignment purposes.
-
-## Author
-
-Maintained by Atik1000.
+- Public GitHub Repository: https://github.com/Atik1000/barikoi-location-finder
+- Setup commands included above (`npm install`, `npm run dev`)

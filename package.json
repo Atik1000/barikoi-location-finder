@@ -9,9 +9,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "@tailwindcss/postcss": "^4.2.2",
+    "barikoiapis": "^2.0.2",
     "next": "16.2.3",
+    "postcss": "^8.5.9",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-bkoi-gl": "^2.1.0",
+    "react-dom": "19.2.4",
+    "react-redux": "^9.2.0",
+    "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
     "@types/node": "^20",

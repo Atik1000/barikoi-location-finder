@@ -1,3 +1,4 @@
+import { getLocationCoordinates, hasValidCoordinates } from "@/lib/location-utils";
 import type { BarikoiLocation } from "@/types/barikoi";
 
 type SearchResultsProps = {
@@ -5,34 +6,9 @@ type SearchResultsProps = {
   isLoading: boolean;
   query: string;
   errorMessage: string | null;
+  selectedLocation: BarikoiLocation | null;
+  onSelectLocation: (location: BarikoiLocation) => void;
 };
-
-function toNumber(value: unknown): number | undefined {
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return value;
-  }
-
-  if (typeof value === "string" && value.trim()) {
-    const parsed = Number(value);
-    if (Number.isFinite(parsed)) {
-      return parsed;
-    }
-  }
-
-  return undefined;
-}
-
-function getCoordinate(location: BarikoiLocation, keys: string[]): number | undefined {
-  for (const key of keys) {
-    const value = location[key];
-    const parsed = toNumber(value);
-    if (parsed !== undefined) {
-      return parsed;
-    }
-  }
-
-  return undefined;
-}
 
 function getPostCode(location: BarikoiLocation): string | undefined {
   const keys = ["postCode", "postcode", "post_code"];
@@ -66,10 +42,9 @@ function getDisplayAddress(location: BarikoiLocation): string {
 }
 
 function getMapLink(location: BarikoiLocation): string | null {
-  const latitude = getCoordinate(location, ["latitude", "lat"]);
-  const longitude = getCoordinate(location, ["longitude", "lng", "lon", "long"]);
+  const { latitude, longitude } = getLocationCoordinates(location);
 
-  if (latitude !== undefined && longitude !== undefined) {
+  if (latitude !== null && longitude !== null) {
     return `https://www.google.com/maps?q=${latitude},${longitude}`;
   }
 
@@ -86,6 +61,8 @@ export function SearchResults({
   isLoading,
   query,
   errorMessage,
+  selectedLocation,
+  onSelectLocation,
 }: SearchResultsProps) {
   const trimmedQuery = query.trim();
 
@@ -112,10 +89,11 @@ export function SearchResults({
         <ul className="results">
           {results.map((location, index) => {
             const uniqueKey = `${location.id ?? "location"}-${location.latitude ?? "lat"}-${location.longitude ?? "lng"}-${index}`;
-            const latitude = getCoordinate(location, ["latitude", "lat"]);
-            const longitude = getCoordinate(location, ["longitude", "lng", "lon", "long"]);
+            const { latitude, longitude } = getLocationCoordinates(location);
             const postCode = getPostCode(location);
             const mapLink = getMapLink(location);
+            const selectedLocationId = selectedLocation?.id;
+            const isSelected = selectedLocationId !== undefined && selectedLocationId === location.id;
 
             return (
               <li key={uniqueKey}>
@@ -128,12 +106,21 @@ export function SearchResults({
                   <span>
                     Coordinates:{" "}
                     <strong>
-                      {latitude !== undefined && longitude !== undefined
+                      {latitude !== null && longitude !== null
                         ? `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`
                         : "N/A"}
                     </strong>
                   </span>
                 </div>
+                {hasValidCoordinates(location) ? (
+                  <button
+                    type="button"
+                    className="selectLocationBtn"
+                    onClick={() => onSelectLocation(location)}
+                  >
+                    {isSelected ? "Selected on Map" : "View on Map"}
+                  </button>
+                ) : null}
                 {mapLink ? (
                   <a
                     className="resultLink"

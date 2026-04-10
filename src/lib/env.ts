@@ -3,7 +3,6 @@ const DEFAULT_BARIKOI_BASE_URL = "https://barikoi.xyz/v2/api";
 export type BarikoiConfig = {
   apiKey: string;
   baseUrl: string;
-  searchPath: string;
 };
 
 export function getBarikoiConfig(): BarikoiConfig {
@@ -20,14 +19,9 @@ export function getBarikoiConfig(): BarikoiConfig {
       /\/$/,
       "",
     ) ?? DEFAULT_BARIKOI_BASE_URL;
-  const searchPath =
-    process.env.BARIKOI_SEARCH_PATH ??
-    process.env.NEXT_PUBLIC_BARIKOI_SEARCH_PATH ??
-    "/search/autocomplete/place";
 
   return {
     apiKey,
     baseUrl,
-    searchPath,
   };
 }

@@ -104,6 +104,12 @@
   font-size: 0.8rem;
   font-weight: 600;
   line-height: 1.15;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.shortcutChip:hover {
+  background: #d7ebf8;
 }
 
 .heroStats {
@@ -260,6 +266,23 @@
 .searchPanel :global(.resultLink:hover) {
   background: #e8f4fc;
   border-color: #9abfd6;
+}
+
+.searchPanel :global(.selectLocationBtn) {
+  margin-top: 10px;
+  margin-right: 10px;
+  border-radius: 999px;
+  border: none;
+  background: #0f766e;
+  color: #fff;
+  padding: 6px 11px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.searchPanel :global(.selectLocationBtn:hover) {
+  background: #0b5e58;
 }
 
 .searchPanel :global(.empty) {

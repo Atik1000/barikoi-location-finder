@@ -13,8 +13,8 @@ export async function searchLocations(
     return [];
   }
 
-  const { apiKey, baseUrl } = getBarikoiConfig();
-  const client = createBarikoiClient({ apiKey, baseUrl });
+  const { apiKey, baseUrl, timeoutMs } = getBarikoiConfig();
+  const client = createBarikoiClient({ apiKey, baseUrl, timeout: timeoutMs });
 
   if (signal?.aborted) {
     return [];

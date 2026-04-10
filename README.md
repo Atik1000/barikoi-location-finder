@@ -45,14 +45,31 @@ BARIKOI_API_KEY=your_server_api_key
 # Optional: default is https://barikoi.xyz
 BARIKOI_BASE_URL=https://barikoi.xyz
 
+# Optional: request timeout for server-side Barikoi SDK calls
+BARIKOI_API_TIMEOUT_MS=10000
+
+# Optional secure server-side feature flags
+BARIKOI_ENABLE_DEMO_FALLBACK=true
+BARIKOI_MIN_SEARCH_QUERY_LENGTH=3
+
 # Optional public map key for react-bkoi-gl map tiles
 NEXT_PUBLIC_BARIKOI_MAP_KEY=your_public_map_key
+
+# Optional public map style base URL
+NEXT_PUBLIC_BARIKOI_MAP_STYLE_BASE_URL=https://map.barikoi.com/styles/osm-liberty/style.json
+
+# Optional public external links base URL for map handoff
+NEXT_PUBLIC_GOOGLE_MAPS_SEARCH_BASE_URL=https://www.google.com/maps?q=
+
+# Optional public minimum query length for client-side UX messaging and behavior
+NEXT_PUBLIC_MIN_SEARCH_QUERY_LENGTH=3
 ```
 
 Security note:
 
 - `BARIKOI_API_KEY` is read on the server only (inside API route/service).
 - The client never calls search APIs with the private key directly.
+- `BARIKOI_ENABLE_DEMO_FALLBACK` and `BARIKOI_MIN_SEARCH_QUERY_LENGTH` control server-side behavior securely.
 - `NEXT_PUBLIC_BARIKOI_MAP_KEY` is for map style tiles and should be domain-restricted.
 
 ## Architecture Summary

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { useDebounce } from "@/hooks/use-debounce";
 import { hasValidCoordinates } from "@/lib/location-utils";
+import { getPublicMinSearchQueryLength } from "@/lib/public-env";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   clearSearchState,
@@ -18,6 +19,7 @@ export function useLocationSearch() {
   const dispatch = useAppDispatch();
   const locationState = useAppSelector((state) => state.location);
   const debouncedQuery = useDebounce(locationState.query, 450);
+  const minSearchQueryLength = getPublicMinSearchQueryLength();
 
   const handleQueryChange = (value: string) => {
     dispatch(setQuery(value));
@@ -31,7 +33,7 @@ export function useLocationSearch() {
     const trimmedQuery = debouncedQuery.trim();
     const controller = new AbortController();
 
-    if (!trimmedQuery || trimmedQuery.length < 3) {
+    if (!trimmedQuery || trimmedQuery.length < minSearchQueryLength) {
       dispatch(clearSearchState());
       return () => controller.abort();
     }
@@ -75,7 +77,7 @@ export function useLocationSearch() {
     return () => {
       controller.abort();
     };
-  }, [debouncedQuery, dispatch]);
+  }, [debouncedQuery, dispatch, minSearchQueryLength]);
 
   return {
     ...locationState,

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getServerFeatureConfig } from "@/lib/env";
 import { searchLocations } from "@/services/barikoi";
 
 const DEMO_LOCATIONS = [
@@ -23,9 +24,10 @@ function searchDemoLocations(query: string) {
 }
 
 export async function GET(request: NextRequest) {
+  const { minSearchQueryLength, enableDemoFallback } = getServerFeatureConfig();
   const query = request.nextUrl.searchParams.get("q")?.trim() ?? "";
 
-  if (query.length < 3) {
+  if (query.length < minSearchQueryLength) {
     return NextResponse.json({ results: [] });
   }
 
@@ -35,7 +37,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unexpected search error";
 
-    if (message.includes("Missing Barikoi API key")) {
+    if (enableDemoFallback && message.includes("Missing Barikoi API key")) {
       return NextResponse.json({
         results: searchDemoLocations(query),
         warning:

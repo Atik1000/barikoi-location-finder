@@ -1,4 +1,5 @@
 import { getLocationCoordinates, hasValidCoordinates } from "@/lib/location-utils";
+import { getPublicGoogleMapsSearchBaseUrl, getPublicMinSearchQueryLength } from "@/lib/public-env";
 import type { SearchResultsProps } from "@/types/component-props";
 import type { BarikoiLocation } from "@/types/barikoi";
 
@@ -34,10 +35,11 @@ function getDisplayAddress(location: BarikoiLocation): string {
 }
 
 function getMapLink(location: BarikoiLocation): string | null {
+  const mapsSearchBaseUrl = getPublicGoogleMapsSearchBaseUrl();
   const { latitude, longitude } = getLocationCoordinates(location);
 
   if (latitude !== null && longitude !== null) {
-    return `https://www.google.com/maps?q=${latitude},${longitude}`;
+    return `${mapsSearchBaseUrl}${latitude},${longitude}`;
   }
 
   const label = `${getDisplayTitle(location)} ${getDisplayAddress(location)}`.trim();
@@ -45,7 +47,7 @@ function getMapLink(location: BarikoiLocation): string | null {
     return null;
   }
 
-  return `https://www.google.com/maps?q=${encodeURIComponent(label)}`;
+  return `${mapsSearchBaseUrl}${encodeURIComponent(label)}`;
 }
 
 export function SearchResults({
@@ -57,13 +59,14 @@ export function SearchResults({
   onSelectLocation,
 }: SearchResultsProps) {
   const trimmedQuery = query.trim();
+  const minSearchQueryLength = getPublicMinSearchQueryLength();
 
   if (!trimmedQuery) {
     return <p className="meta">Type to start searching.</p>;
   }
 
-  if (trimmedQuery.length < 3) {
-    return <p className="meta">Type at least 3 characters to search.</p>;
+  if (trimmedQuery.length < minSearchQueryLength) {
+    return <p className="meta">Type at least {minSearchQueryLength} characters to search.</p>;
   }
 
   if (isLoading) {

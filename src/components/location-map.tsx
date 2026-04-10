@@ -5,7 +5,7 @@ import { Map, Marker, NavigationControl, Popup, type MapRef } from "react-bkoi-g
 import "react-bkoi-gl/styles";
 
 import { getLocationCoordinates } from "@/lib/location-utils";
-import { getPublicMapKey } from "@/lib/public-env";
+import { getPublicMapKey, getPublicMapStyleBaseUrl } from "@/lib/public-env";
 import type { LocationMapProps } from "@/types/component-props";
 
 const DEFAULT_CENTER = {
@@ -15,7 +15,9 @@ const DEFAULT_CENTER = {
 
 export function LocationMap({ location }: LocationMapProps) {
   const mapKey = getPublicMapKey();
+  const mapStyleBaseUrl = getPublicMapStyleBaseUrl();
   const mapRef = useRef<MapRef | null>(null);
+  const mapStyleUrl = `${mapStyleBaseUrl}${mapStyleBaseUrl.includes("?") ? "&" : "?"}key=${mapKey}`;
 
   const { latitude, longitude } = location
     ? getLocationCoordinates(location)
@@ -26,7 +28,10 @@ export function LocationMap({ location }: LocationMapProps) {
 
   const mapLatitude = latitude ?? DEFAULT_CENTER.latitude;
   const mapLongitude = longitude ?? DEFAULT_CENTER.longitude;
-      const mapCenter = useMemo<[number, number]>(() => [mapLongitude, mapLatitude], [mapLongitude, mapLatitude]);
+  const mapCenter = useMemo<[number, number]>(
+    () => [mapLongitude, mapLatitude],
+    [mapLongitude, mapLatitude],
+  );
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
@@ -53,7 +58,7 @@ export function LocationMap({ location }: LocationMapProps) {
     <div className="h-[340px] w-full overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
       <Map
         ref={mapRef}
-        mapStyle={`https://map.barikoi.com/styles/osm-liberty/style.json?key=${mapKey}`}
+        mapStyle={mapStyleUrl}
         initialViewState={{
           latitude: mapLatitude,
           longitude: mapLongitude,

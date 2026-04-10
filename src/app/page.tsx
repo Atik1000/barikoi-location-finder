@@ -86,12 +86,46 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <div className={styles.hero}>
-          <p className={styles.badge}>Barikoi Location Finder</p>
-          <h1>Search for places across Bangladesh in one quick flow.</h1>
-          <p>
-            Type at least 3 characters to search by location name, area, or city.
-          </p>
+        <section className={styles.hero}>
+          <div className={styles.heroContent}>
+            <p className={styles.badge}>Barikoi Location Finder</p>
+            <h1>Search smarter, locate faster, and explore with confidence.</h1>
+            <p>
+              Type at least 3 characters to search by location name, area, or city. Results are
+              served through a secure server-side API route.
+            </p>
+            <div className={styles.shortcutRow}>
+              <span className={styles.shortcutChip}>Dhaka</span>
+              <span className={styles.shortcutChip}>Chattogram</span>
+              <span className={styles.shortcutChip}>Sylhet</span>
+              <span className={styles.shortcutChip}>Khulna</span>
+            </div>
+          </div>
+
+          <div className={styles.heroStats}>
+            <article className={styles.statCard}>
+              <p>Search Mode</p>
+              <h3>Live + Fallback</h3>
+              <span>Auto fallback keeps demo stable if API key is missing.</span>
+            </article>
+
+            <article className={styles.statCard}>
+              <p>Result Detail</p>
+              <h3>Address + GPS</h3>
+              <span>Postcode, coordinates, and map handoff included.</span>
+            </article>
+
+            <article className={styles.statCard}>
+              <p>Search Trigger</p>
+              <h3>3+ Characters</h3>
+              <span>Debounced lookups reduce noise and improve quality.</span>
+            </article>
+          </div>
+        </section>
+
+        <div className={styles.panelHeader}>
+          <h2>Find Location</h2>
+          <span className={styles.liveDot}>Status: Ready</span>
         </div>
 
         <section className={styles.searchPanel}>

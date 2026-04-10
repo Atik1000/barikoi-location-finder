@@ -67,13 +67,15 @@ Create a file named `.env.local` in the project root.
 Example:
 
 ```env
-NEXT_PUBLIC_BARIKOI_API_KEY=your_api_key_here
-NEXT_PUBLIC_BARIKOI_BASE_URL=https://barikoi.xyz/v2/api
+BARIKOI_API_KEY=your_api_key_here
+BARIKOI_BASE_URL=https://barikoi.xyz/v2/api
+BARIKOI_SEARCH_PATH=/search/autocomplete/place
 ```
 
 Notes:
 
-- Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser.
+- Keep API keys server-side whenever possible.
+- `BARIKOI_BASE_URL` and `BARIKOI_SEARCH_PATH` are optional and have defaults.
 - Never commit real API secrets to source control.
 
 ## Project Structure
@@ -86,6 +88,12 @@ barikoi-location-finder/
 |  |  |- layout.tsx
 |  |  |- page.tsx
 |  |  |- globals.css
+|  |- lib/
+|  |  |- env.ts
+|  |- services/
+|  |  |- barikoi.ts
+|  |- types/
+|  |  |- barikoi.ts
 |- package.json
 |- tsconfig.json
 |- next.config.ts
